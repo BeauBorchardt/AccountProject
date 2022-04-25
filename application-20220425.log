@@ -1,0 +1,15 @@
+2022-04-25 08:10:05.864 [main] DEBUG org.Revature.App - We've just greeted the user!
+2022-04-25 08:10:05.867 [main] INFO  org.Revature.App - We've just greeted the user!
+2022-04-25 08:10:05.867 [main] WARN  org.Revature.App - We've just greeted the user!
+2022-04-25 08:10:05.867 [main] ERROR org.Revature.App - We've just greeted the user!
+2022-04-25 08:10:05.867 [main] FATAL org.Revature.App - We've just greeted the user!
+2022-04-25 13:29:04.248 [main] DEBUG org.Revature.App - We've just greeted the user!
+2022-04-25 13:29:04.251 [main] INFO  org.Revature.App - We've just greeted the user!
+2022-04-25 13:29:04.251 [main] WARN  org.Revature.App - We've just greeted the user!
+2022-04-25 13:29:04.251 [main] ERROR org.Revature.App - We've just greeted the user!
+2022-04-25 13:29:04.251 [main] FATAL org.Revature.App - We've just greeted the user!
+2022-04-25 14:16:29.376 [main] DEBUG org.Revature.App - We've just greeted the user!
+2022-04-25 14:16:29.378 [main] INFO  org.Revature.App - We've just greeted the user!
+2022-04-25 14:16:29.378 [main] WARN  org.Revature.App - We've just greeted the user!
+2022-04-25 14:16:29.378 [main] ERROR org.Revature.App - We've just greeted the user!
+2022-04-25 14:16:29.379 [main] FATAL org.Revature.App - We've just greeted the user!
