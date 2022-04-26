@@ -2,7 +2,7 @@ package AccountModelPkg;
 
 import java.util.Date;
 
-public class CustomerMod {
+public class Customer {
     int customerId;
     int user_id;
     String fName;

@@ -1,6 +1,6 @@
 package AccountModelPkg;
 
-public class EmployeeMod {
+public class Employee {
     int employeeId;
     int userId;
     String fName;

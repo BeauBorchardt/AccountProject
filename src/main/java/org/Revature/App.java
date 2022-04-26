@@ -1,5 +1,7 @@
 package org.Revature;
 
+import io.javalin.Javalin;
+import io.javalin.http.Handler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.Scanner;
@@ -13,20 +15,15 @@ public class App
 
     public static void main( String[] args )
     {
-        System.out.println( "Hello, user!" );
+        System.out.println("Helloooooo!");
+        UsersDAO userDao = new UsersImp();
+        User u = userDao.getUser("SuperMario");
 
-        logger.trace("We've just greeted the user!");
-        logger.debug("We've just greeted the user!");
-        logger.info("We've just greeted the user!");
-        logger.warn("We've just greeted the user!");
-        logger.error("We've just greeted the user!");
-        logger.fatal("We've just greeted the user!");
-
-
+        System.out.println("Username: " + u.username);
+        System.out.println("password: " + u.password);
+        System.out.println("Access Level: " + u.accessLevel);
 
     }
 
-    public static int add(int x, int y){
-        return x + y;
-    }
+
 }

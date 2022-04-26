@@ -1,16 +1,16 @@
 package AccountModelPkg;
 
-public class UsersMod {
-    int userId;
-    String userName;
-    String password;
-    int accessLevel;
+public class User {
+    public int userId;
+    public String username;
+    public String password;
+    public int accessLevel;
 
     @Override
     public String toString() {
         return "UsersMod{" +
                 "userId=" + userId +
-                ", userName='" + userName + '\'' +
+                ", userName='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", accessLevel=" + accessLevel +
                 '}';
