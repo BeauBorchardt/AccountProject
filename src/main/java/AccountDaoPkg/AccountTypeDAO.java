@@ -1,4 +1,10 @@
 package AccountDaoPkg;
 
-public class AccountTypeDAO {
+import AccountModelPkg.AccountType;
+
+public class AccountTypeDAO implements AccountTypeInterface{
+    @Override
+    public AccountType getAccountType(int id) {
+        return null;
+    }
 }
