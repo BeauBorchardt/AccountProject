@@ -1,10 +1,10 @@
 package AccountModelPkg;
 
 public class Employee {
-    int employeeId;
-    int userId;
-    String fName;
-    String lName;
+    public int employeeId;
+    public int userId;
+    public String fName;
+    public String lName;
 
     @Override
     public String toString() {

@@ -1,10 +1,9 @@
 package org.Revature;
 
+import Controller.UserController;
 import io.javalin.Javalin;
-import io.javalin.http.Handler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import java.util.Scanner;
 import AccountModelPkg.*;
 import AccountDaoPkg.*;
 
@@ -15,11 +14,16 @@ public class App
 
     public static void main( String[] args )
     {
-        System.out.println("Helloooooo!");
-        UsersDAO userDao = new UsersImp();
+        Javalin app = Javalin.create().start(7072);
+        UserController userController = new UserController(app);
+
+        UsersInterface userDao = new UsersDAO();
         User u = userDao.getUser("SuperMario");
 
-        System.out.println("Username: " + u.username);
+        EmployeeInterface employeeDAO = new EmployeeDAO();
+        Employee e = employeeDAO.getEmployee(6);
+
+        System.out.println("Customer Username: " + u.username);
         System.out.println("password: " + u.password);
         System.out.println("Access Level: " + u.accessLevel);
 

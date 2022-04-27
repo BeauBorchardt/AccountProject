@@ -1,5 +1,4 @@
 package AccountDaoPkg;
 
-public interface AccessLinkDAO {
-
+public class AccessLinkDAO implements AccessLinkInterface {
 }

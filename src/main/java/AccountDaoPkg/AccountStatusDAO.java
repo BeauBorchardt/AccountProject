@@ -1,5 +1,5 @@
 package AccountDaoPkg;
 
-public interface AccountStatusDAO {
+public class AccountStatusDAO implements AccountStatusInterface {
 
 }

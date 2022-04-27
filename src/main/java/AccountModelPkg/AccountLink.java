@@ -1,6 +1,6 @@
 package AccountModelPkg;
 
-public class AccountLinkMod {
+public class AccountLink {
     int linkId;
     int customerId;
     int accountId;

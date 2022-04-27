@@ -1,6 +1,6 @@
 package AccountModelPkg;
 
-public class AccountTypeMod {
+public class AccountType {
     int accountTypeId;
     String accountType;
 

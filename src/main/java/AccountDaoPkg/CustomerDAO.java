@@ -1,5 +1,5 @@
 package AccountDaoPkg;
 
-public interface CustomerDAO {
+public class CustomerDAO implements CustomerInterface {
 
 }

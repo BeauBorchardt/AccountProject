@@ -1,6 +1,6 @@
 package AccountModelPkg;
 
-public class AccountStatusMod {
+public class AccountStatus {
     int statusId;
     String statusType;
 

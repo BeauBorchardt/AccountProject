@@ -1,6 +1,6 @@
 package AccountModelPkg;
 
-public class AccessLevelMod {
+public class AccessLevel {
     int accessId;
     String accessType;
 

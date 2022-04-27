@@ -1,5 +1,5 @@
 package AccountDaoPkg;
 
-public interface AccessLevelDAO {
+public class AccessLevelDAO implements AccessLevelInterface {
 
 }

@@ -1,6 +1,6 @@
 package AccountModelPkg;
 
-public class CustomerAccountMod {
+public class CustomerAccount {
     int customerAccountId;
     int accountNumber;
     int accountTypeId;

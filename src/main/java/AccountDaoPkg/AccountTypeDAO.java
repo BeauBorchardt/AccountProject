@@ -1,5 +1,4 @@
 package AccountDaoPkg;
 
-public interface AccountTypeDAO {
-
+public class AccountTypeDAO {
 }
