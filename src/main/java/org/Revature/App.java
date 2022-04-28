@@ -16,6 +16,7 @@ public class App
     private static int customerMenuChoice = 0;
     private static int employeeMenuChoice = 0;
     private static int adminMenuChoice = 0;
+    private static int signupCheckingType =0;
     private static String username;
     private static String password;
     private static int accessLevel;
@@ -55,7 +56,6 @@ public class App
             u = userDao.getUser(username);
             if(u.accessLevel == 1){
                 customerMenu();
-
             } else if (u.accessLevel == 2){
                 employeeMenu();
             } else if (u.accessLevel == 3){
@@ -94,11 +94,12 @@ public class App
 
     public static void signUpMenu(){
         User user = new User();
+        int signUpChoice = 0;
 
         System.out.println("Welcome to the Banking app sign up page.");
-        System.out.println("Please enter a username: ");
+        System.out.println("Please enter a username: for your account");
         user.setUsername(scan.next());
-        System.out.println("Please enter a password: ");
+        System.out.println("Please enter a password for your account: ");
         user.setPassword(scan.next());
         user = userDao.createUser(user);
         System.out.println("Please enter your first name: ");
@@ -115,9 +116,38 @@ public class App
         System.out.println("Enter your zip code:");
         customer.setZipCode(scan.next());
         customer = customerDao.createCustomer(customer);
+
+        System.out.println("Will this be a joint account?");
+        System.out.println("1.Yes");
+        System.out.println("2.No");
+        signUpChoice = scan.nextInt();
+        if(signUpChoice < 0 || signUpChoice > 2){
+            while(signUpChoice < 1 || signUpChoice > 2 ){
+                System.out.println("Please enter 1 for Yes, 2 for no");
+                signUpChoice = scan.nextInt();
+            }
+        }
+        int jointStatus = signUpChoice;
         System.out.println("Select what type of account you would like to create");
         System.out.println("1. Checking Account");
         System.out.println("2. Savings Account");
+        signUpChoice = scan.nextInt();
+        if(signUpChoice < 0 || signUpChoice > 2){
+            while(signUpChoice < 1 || signUpChoice > 2 ){
+                System.out.println("Please enter 1 for Checking, 2 for Savings");
+                signUpChoice = scan.nextInt();
+            }
+        }
+        int accType = signUpChoice;
+        if(accType == 1 && jointStatus == 2){
+            System.out.println("You have signed up for a checking account");
+        } else if (accType == 1 && jointStatus == 1){
+            System.out.println("You have signed up for a joint checking account");
+        } else if (accType == 2 && jointStatus == 2){
+            System.out.println("You have signed up for a saving account");
+        } else if (accType == 2 && jointStatus == 1){
+            System.out.println("You have signed up for a joint saving account");
+        }
 
     }
 
