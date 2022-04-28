@@ -7,6 +7,16 @@ public class CustomerAccount {
     public double accountBalance;
     public int accountStatus;
 
+    public CustomerAccount() {
+
+    }
+    public CustomerAccount(int accountNumber, int accountTypeId){
+        this.accountNumber = accountNumber;
+        this.accountTypeId = accountTypeId;
+        accountBalance = 00.00;
+        accountStatus = 2;
+    }
+
     public int getCustomerAccountId() {
         return customerAccountId;
     }

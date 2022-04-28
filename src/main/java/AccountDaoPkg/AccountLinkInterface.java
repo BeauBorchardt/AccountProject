@@ -3,6 +3,7 @@ package AccountDaoPkg;
 import AccountModelPkg.AccountLink;
 
 public interface AccountLinkInterface {
-    public AccountLink getLink(int id);
+    AccountLink getLink(int id);
+    AccountLink setLink(int accountId, int customerId);
 
 }

@@ -1,5 +1,6 @@
 package AccountDaoPkg;
 
+import AccountModelPkg.Customer;
 import AccountModelPkg.CustomerAccount;
 import AccountModelPkg.Employee;
 
@@ -7,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class CustomerAccountDAO implements CustomerAccountInterface {
 
@@ -33,10 +35,27 @@ public class CustomerAccountDAO implements CustomerAccountInterface {
     }
 
     @Override
-    public CustomerAccount createCustomerAccount(int id) {
+    public CustomerAccount createCustomerAccount(CustomerAccount customerAccount) {
+        Connection connection = ConnectionManager.getConnection();
 
 
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO customer_account (account_number, account_type, account_balance, account_status) VALUES (?, ?, ?, ?)");
 
+            statement.setInt(1, customerAccount.getAccountNumber());
+            statement.setInt(2, customerAccount.getAccountTypeId());
+            statement.setDouble(3, customerAccount.getAccountBalance());
+            statement.setInt(4, customerAccount.getAccountStatus());
+
+            statement.execute();
+            return getCustomerAccount(customerAccount.customerAccountId);
+
+        } catch(SQLException e){
+            e.printStackTrace();
+
+        }
         return null;
+
     }
 }

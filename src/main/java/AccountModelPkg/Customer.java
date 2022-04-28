@@ -13,7 +13,6 @@ public class Customer {
     public String zipCode;
 
     public Customer(){
-
     }
     public Customer(int userId){
         this.userId = userId;

@@ -7,4 +7,5 @@ public interface AccountTypeInterface {
 
     public AccountType getAccountType(int id);
 
+
 }
