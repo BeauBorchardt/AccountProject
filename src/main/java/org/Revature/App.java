@@ -108,9 +108,9 @@ public class App
         System.out.println("Enter your last name: ");
         customer.setlName(scan.next());
         System.out.println("Enter your street address:");
-        customer.setStreetAdd(scan.next());
+        customer.setStreetAdd(scan.nextLine());
         System.out.println("Enter your city:");
-        customer.setCity(scan.next());
+        customer.setCity(scan.nextLine());
         System.out.println("Enter your State:");
         customer.setState(scan.next());
         System.out.println("Enter your zip code:");
@@ -127,7 +127,16 @@ public class App
                 signUpChoice = scan.nextInt();
             }
         }
+
         int jointStatus = signUpChoice;
+        if(jointStatus == 1){
+            //create new customer account
+            System.out.println("Please enter a username for your account");
+            System.out.println("Please enter a password for your account");
+            System.out.println("Please enter your first name: ");
+            System.out.println("Please enter your last name: ");
+        }
+
         System.out.println("Select what type of account you would like to create");
         System.out.println("1. Checking Account");
         System.out.println("2. Savings Account");
@@ -139,15 +148,21 @@ public class App
             }
         }
         int accType = signUpChoice;
+        int accTypeSet = 0;
         if(accType == 1 && jointStatus == 2){
             System.out.println("You have signed up for a checking account");
+            accTypeSet = 1;
         } else if (accType == 1 && jointStatus == 1){
             System.out.println("You have signed up for a joint checking account");
+            accTypeSet = 2;
         } else if (accType == 2 && jointStatus == 2){
             System.out.println("You have signed up for a saving account");
+            accTypeSet = 3;
         } else if (accType == 2 && jointStatus == 1){
             System.out.println("You have signed up for a joint saving account");
+            accTypeSet = 4;
         }
+
 
     }
 
