@@ -37,4 +37,11 @@ public class CustomerDAO implements CustomerInterface {
         }
         return null;
     }
+
+    public Customer createCustomer(int id){
+        Connection connection = ConnectionManager.getConnection();
+
+        return null;
+
+    }
 }
