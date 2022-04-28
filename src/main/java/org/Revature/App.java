@@ -16,18 +16,24 @@ public class App
     private static int menuChoice = 0;
     private static String username;
     private static String password;
-
     private static int accessLevel;
-
-    private static UsersInterface userDao = new UsersDAO();
+    private static AccessLevelInterface accessLevelDao = new AccessLevelDAO();
+    private static AccountLinkInterface accountLinkDa0 = new AccountLinkDAO();
+    private static AccountStatusInterface accountStatusDao = new AccountStatusDAO();
+    private static AccountTypeInterface accountTypeDao = new AccountTypeDAO();
     private static CustomerInterface customerDao = new CustomerDAO();
-
+    private static CustomerAccountInterface customerAccountDao = new CustomerAccountDAO();
     private static EmployeeInterface employeeDao = new EmployeeDAO();
-    static User u;
+    private static UsersInterface userDao = new UsersDAO();
+
+    static AccessLevel al;
+    static AccountLink link;
+    static AccountStatus as;
+    static AccountType at;
     static Customer c;
-
+    static CustomerAccount ca;
     static Employee e;
-
+    static User u;
 
     public static void main( String[] args )
     {
@@ -39,6 +45,8 @@ public class App
             accountLogin();
         } else if (menuChoice == 2){
             signUpMenu();
+        } else if (menuChoice == 3){
+            testMenu();
         }
         u = userDao.getUser(username);
 
@@ -80,11 +88,25 @@ public class App
     }
 
     public static void signUpMenu(){
+        User user = new User();
+
         System.out.println("Welcome to the Banking app sign up page.");
         System.out.println("Please enter a username: ");
-        username = scan.next();
+        user.setUsername(scan.next());
         System.out.println("Please enter a password: ");
-        password = scan.next();
+        user.setPassword(scan.next());
+        user = userDao.createUser(user);
+        System.out.println("Please enter your first name: ");
+        Customer customer = new Customer(user.getUserId());
+
+        System.out.println("Enter your last name: ");
+        System.out.println("Enter your street address:");
+        System.out.println("Enter your city:");
+        System.out.println("Enter your State:");
+        System.out.println("Enter your zip code:");
+        System.out.println("Enter your birthdate:");
+
+
     }
 
     public static void customerMenu(){
@@ -114,6 +136,10 @@ public class App
     public static void adminMenu(){
         System.out.println("Admin Access Menu ");
         System.out.println(e.fName + " " + e.lName + " You are logged in as admin");
+
+    }
+
+    public static void testMenu(){
 
     }
 

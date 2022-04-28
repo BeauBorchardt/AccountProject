@@ -1,11 +1,11 @@
 package AccountModelPkg;
 
 public class CustomerAccount {
-    int customerAccountId;
-    int accountNumber;
-    int accountTypeId;
-    double accountBalance;
-    int accountStatus;
+    public int customerAccountId;
+    public int accountNumber;
+    public int accountTypeId;
+    public double accountBalance;
+    public int accountStatus;
 
     @Override
     public String toString() {

@@ -33,10 +33,8 @@ public class CustomerDAO implements CustomerInterface {
                 return c;
             }
         } catch (Exception e){
-
+            e.printStackTrace();
         }
-
         return null;
-
     }
 }

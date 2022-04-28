@@ -1,8 +1,8 @@
 package AccountModelPkg;
 
 public class AccessLevel {
-    int accessId;
-    String accessType;
+    public int accessId;
+    public String accessType;
 
     @Override
     public String toString() {

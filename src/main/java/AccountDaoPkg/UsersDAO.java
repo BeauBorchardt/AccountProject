@@ -5,6 +5,7 @@ import AccountModelPkg.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UsersDAO implements UsersInterface {
 
@@ -28,14 +29,29 @@ public class UsersDAO implements UsersInterface {
                 return u;
             }
         } catch (Exception e){
-
+            e.printStackTrace();
         }
-
         return null;
     }
 
     @Override
-    public void createUser(User user) {
+    public User createUser(User user) {
+        Connection connection = ConnectionManager.getConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO users (username, user_password, access_level) VALUES (?, ?, ?)");
+
+            statement.setString(1, user.username);
+            statement.setString(2, user.password);
+            statement.setInt(3, 1);
+
+            statement.execute();
+            return getUser(user.username);
+
+        } catch(SQLException e){
+
+        }
+        return null;
 
     }
 

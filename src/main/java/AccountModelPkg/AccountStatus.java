@@ -1,8 +1,8 @@
 package AccountModelPkg;
 
 public class AccountStatus {
-    int statusId;
-    String statusType;
+    public int statusId;
+    public String statusType;
 
     @Override
     public String toString() {

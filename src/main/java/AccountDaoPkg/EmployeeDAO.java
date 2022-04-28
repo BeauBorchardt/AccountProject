@@ -1,12 +1,9 @@
 package AccountDaoPkg;
 
 import AccountModelPkg.Employee;
-import AccountModelPkg.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class EmployeeDAO implements EmployeeInterface {
 
@@ -27,11 +24,8 @@ public class EmployeeDAO implements EmployeeInterface {
 
                 return e;
             }
-
-
-
-        } catch (SQLException e) {
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

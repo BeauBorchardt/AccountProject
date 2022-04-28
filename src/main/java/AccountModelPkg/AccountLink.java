@@ -1,9 +1,9 @@
 package AccountModelPkg;
 
 public class AccountLink {
-    int linkId;
-    int customerId;
-    int accountId;
+    public int linkId;
+    public int customerId;
+    public int accountId;
 
     @Override
     public String toString() {

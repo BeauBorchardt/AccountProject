@@ -1,8 +1,8 @@
 package AccountModelPkg;
 
 public class AccountType {
-    int accountTypeId;
-    String accountType;
+    public int accountTypeId;
+    public String accountType;
 
     @Override
     public String toString() {
