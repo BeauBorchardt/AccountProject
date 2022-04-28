@@ -7,14 +7,46 @@ public class CustomerAccount {
     public double accountBalance;
     public int accountStatus;
 
-    @Override
-    public String toString() {
-        return "CustomerAccountMod{" +
-                "customerAccountId=" + customerAccountId +
-                ", accountNumber=" + accountNumber +
-                ", accountTypeId=" + accountTypeId +
-                ", accountBalance=" + accountBalance +
-                ", accountStatus=" + accountStatus +
-                '}';
+    public int getCustomerAccountId() {
+        return customerAccountId;
     }
+
+    public void setCustomerAccountId(int customerAccountId) {
+        this.customerAccountId = customerAccountId;
+    }
+
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(int accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public int getAccountTypeId() {
+        return accountTypeId;
+    }
+
+    public void setAccountTypeId(int accountTypeId) {
+        this.accountTypeId = accountTypeId;
+    }
+
+    public double getAccountBalance() {
+        return accountBalance;
+    }
+
+    public void setAccountBalance(double accountBalance) {
+        this.accountBalance = accountBalance;
+    }
+
+    public int getAccountStatus() {
+        return accountStatus;
+    }
+
+    public void setAccountStatus(int accountStatus) {
+        this.accountStatus = accountStatus;
+    }
+
 }
+
+

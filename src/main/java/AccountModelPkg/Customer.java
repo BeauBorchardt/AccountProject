@@ -11,7 +11,6 @@ public class Customer {
     public String city;
     public String state;
     public String zipCode;
-    public Date birthdate;
 
     public Customer(){
 
@@ -51,22 +50,5 @@ public class Customer {
         this.zipCode = zipCode;
     }
 
-    public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
-    }
 
-    @Override
-    public String toString() {
-        return "CustomerMod{" +
-                "customerId=" + customerId +
-                ", user_id=" + userId +
-                ", fName='" + fName + '\'' +
-                ", lName='" + lName + '\'' +
-                ", streetAdd='" + streetAdd + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", birthdate=" + birthdate +
-                '}';
-    }
 }

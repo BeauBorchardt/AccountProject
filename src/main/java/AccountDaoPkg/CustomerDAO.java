@@ -3,9 +3,7 @@ package AccountDaoPkg;
 import AccountModelPkg.Customer;
 import AccountModelPkg.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 
 public class CustomerDAO implements CustomerInterface {
 
@@ -28,7 +26,6 @@ public class CustomerDAO implements CustomerInterface {
                 c.city = rs.getString("city");
                 c.state = rs.getString("cust_state");
                 c.zipCode = rs.getString("zip_code");
-                c.birthdate = rs.getDate("birthdate");
 
                 return c;
             }
@@ -38,9 +35,27 @@ public class CustomerDAO implements CustomerInterface {
         return null;
     }
 
-    public Customer createCustomer(int id){
+    public Customer createCustomer(Customer customer){
         Connection connection = ConnectionManager.getConnection();
 
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO Customer (user_id, first_name, last_name, street_address, city, cust_state, zip_code) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+            statement.setInt(1, customer.userId);
+            statement.setString(2, customer.fName);
+            statement.setString(3, customer.lName);
+            statement.setString(4, customer.streetAdd);
+            statement.setString(5, customer.city);
+            statement.setString(6, customer.state);
+            statement.setString(7, customer.zipCode);
+
+            statement.execute();
+            return getCustomer(customer.userId);
+
+        } catch(SQLException e){
+
+        }
         return null;
 
     }

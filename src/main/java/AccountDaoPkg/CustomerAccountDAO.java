@@ -27,9 +27,13 @@ public class CustomerAccountDAO implements CustomerAccountInterface {
 
                 return ca;
             }
-        } catch (SQLException e) {
-
+            } catch (SQLException e) {
         }
+        return null;
+    }
+
+    @Override
+    public CustomerAccount createCustomerAccount(int id) {
 
 
 
