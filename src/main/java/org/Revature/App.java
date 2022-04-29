@@ -15,12 +15,10 @@ public class App
     private static final Logger logger = LogManager.getLogger(App.class);
     static Scanner scan = new Scanner(System.in);
     private static int menuChoice = 0;
-
-
-    private static int signupCheckingType =0;
+    private static int accessLevel = 0;
     private static String username;
     private static String password;
-    private static int accessLevel;
+
     private static AccessLevelInterface accessLevelDao = new AccessLevelDAO();
     private static AccountLinkInterface accountLinkDa0 = new AccountLinkDAO();
     private static AccountStatusInterface accountStatusDao = new AccountStatusDAO();
@@ -195,6 +193,8 @@ public class App
         System.out.println("You have withdrawn $" + withdrawAmt);
         System.out.println("Your current account balance is $" + ca.getAccountBalance());
         System.out.println();
+        logger.info("$" + withdrawAmt + " withdrawn from account " + ca.getAccountNumber());
+        System.out.println();
         System.out.println("Press Enter 1 to return to Customer Menu");
         int x = scan.nextInt();
     }
@@ -224,15 +224,14 @@ public class App
 
     }
 
-
     //sign up menu handling
     public static void signUpMenu(){
         User user = new User();
         User user2 = new User();
         int signUpChoice = 0;
 
-        System.out.println("Welcome to the Banking app sign up page.");
-        System.out.println("Please enter a username: for your account");
+        System.out.println("Welcome to the Banking App Application page.");
+        System.out.println("Please enter a username for your account: ");
         user.setUsername(scan.next());
         System.out.println("Please enter a password for your account: ");
         user.setPassword(scan.next());
@@ -289,7 +288,7 @@ public class App
             customer2 = customerDao.createCustomer(customer);
         }
 
-        System.out.println("Select what type of account you would like to create");
+        System.out.println("Select what type of account you would like to apply for: ");
         System.out.println("1. Checking Account");
         System.out.println("2. Savings Account");
         signUpChoice = scan.nextInt();
@@ -305,19 +304,27 @@ public class App
         CustomerAccount ac = new CustomerAccount();
 
         if(accType == 1 && jointStatus == 2){
-            System.out.println("You have signed up for a checking account");
+            System.out.println("You have applied for a checking account pending bank approval");
             ac = customerAccountDao.createCustomerAccount(new CustomerAccount(accountNumber, 1));
+            logger.info("New checking account created for " + customer.fName + " " + customer.lName);
         } else if (accType == 1 && jointStatus == 1){
-            System.out.println("You have signed up for a joint checking account");
+            System.out.println("You have applied for a joint checking account pending bank approval");
             ac = customerAccountDao.createCustomerAccount(new CustomerAccount(accountNumber, 2));
+            logger.info("New joint checking account created for " + customer.fName + " " + customer.lName);
         } else if (accType == 2 && jointStatus == 2){
-            System.out.println("You have signed up for a saving account");
+            System.out.println("You have applied for a saving account pending bank approval");
             ac = customerAccountDao.createCustomerAccount(new CustomerAccount(accountNumber, 3));
+            logger.info("New savings account created for " + customer.fName + " " + customer.lName);
         } else if (accType == 2 && jointStatus == 1){
-            System.out.println("You have signed up for a joint saving account");
+            System.out.println("You have applied for a joint saving account pending bank approval");
             ac = customerAccountDao.createCustomerAccount(new CustomerAccount(accountNumber, 4));
         }
         accountLinkDa0.setLink(ac.getCustomerAccountId(), customer.customerId);
+
+        System.out.println();
+        System.out.println("Press Enter 1 to return to Main Menu");
+        int x = scan.nextInt();
+
     }
 
     //employee menu handling methods
@@ -327,26 +334,26 @@ public class App
         while(employeeMenuChoice != 5){
             System.out.println("Hello " + e.fName + " " + e.lName);
             System.out.println("Please select an option :");
-            System.out.println("1. View Customer Account");
-            System.out.println("2. View Customer Information");
-            System.out.println("3. View Account Balances");
-            System.out.println("4. See pending accounts");
-            System.out.println("5. Exit Application");
+            System.out.println("1. View Customer Account Information");
+            System.out.println("2. View all Accounts Balances");
+            System.out.println("3. See pending account applications ");
+            System.out.println("4. Exit Application");
             employeeMenuChoice = scan.nextInt();
-            if(employeeMenuChoice < 0 || employeeMenuChoice >5){
-                while(employeeMenuChoice < 0 || employeeMenuChoice >5){
+            if(employeeMenuChoice < 0 || employeeMenuChoice >4){
+                while(employeeMenuChoice < 0 || employeeMenuChoice >4){
                     System.out.println("Please Select a Valid Menu Option: ");
                     employeeMenuChoice = scan.nextInt();
                 }
             }
             if(employeeMenuChoice == 1){
                 //view customer account info
+                employeeViewAllCustomerInfo();
             } else if (employeeMenuChoice == 2){
                 //view customer information
+                viewAllAccounts();
             } else if (employeeMenuChoice == 3){
                 //view account balance
-            }else if (employeeMenuChoice == 4){
-                //view pending accounts
+                viewPendingAccounts();
             }
         }
     }
@@ -362,8 +369,8 @@ public class App
         AccountType at = accountTypeDao.getAccountType(caView.accountTypeId);
         //Print customer info to screen
         System.out.println("Customer Name: " + cView.fName + " " + cView.lName);
-        System.out.println("Customer Address: " + cView.streetAdd + "City: "
-                + c.city + " State: " + c.state + " Zip Code: " + c.zipCode);
+        System.out.println("Customer Address: " + cView.streetAdd + " City: "
+                + cView.city + " State: " + cView.state + " Zip Code: " + cView.zipCode);
         System.out.println("Account Number : " + caView.getAccountNumber() + "Account Status: " + as.statusType);
         System.out.println("Account Balance: $" + caView.getAccountBalance());
 
@@ -372,9 +379,15 @@ public class App
         int x = scan.nextInt();
 
 
+    }
+
+    public static void viewPendingAccounts(){
 
     }
 
+    public static void viewAllAccounts(){
+
+    }
 
     //admin menu handling methods
     public static void adminMenu(){
