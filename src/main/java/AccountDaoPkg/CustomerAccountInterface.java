@@ -5,11 +5,17 @@ import AccountModelPkg.Customer;
 import AccountModelPkg.CustomerAccount;
 import AccountModelPkg.User;
 
+import java.util.List;
+
 public interface CustomerAccountInterface {
-    public CustomerAccount getCustomerAccount(int id);
-    public CustomerAccount createCustomerAccount(CustomerAccount customerAccount);
-    public void updateAccountBalance(CustomerAccount customerAccount);
-    public CustomerAccount getCustomerAccountViaId(int id);
-    public void updateCustomerAccount(CustomerAccount customerAccount);
-    public void deleteCustomerAccount(CustomerAccount customerAccount);
+    CustomerAccount getCustomerAccount(int id);
+    CustomerAccount createCustomerAccount(CustomerAccount customerAccount);
+    void updateAccountBalance(CustomerAccount customerAccount);
+
+    void updateAccountStatus(CustomerAccount customerAccount);
+    CustomerAccount getCustomerAccountViaId(int id);
+    void updateCustomerAccount(CustomerAccount customerAccount);
+    void deleteCustomerAccount(CustomerAccount customerAccount);
+
+    List<CustomerAccount> getCustomerAccountViaStatus(int id);
 }

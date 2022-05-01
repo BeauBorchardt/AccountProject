@@ -13,13 +13,18 @@ public class User {
     public void setUsername(String username){
         this.username = username;
     }
-    public int getUserId() {
-        return this.userId;
-    }
+    public int getUserId() {return this.userId;}
     public void setPassword(String password){
         this.password = password;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setAccessLevel(int accessLevel) {
+        this.accessLevel = accessLevel;
+    }
 
     @Override
     public String toString() {

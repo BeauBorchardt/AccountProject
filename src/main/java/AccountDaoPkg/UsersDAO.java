@@ -43,7 +43,7 @@ public class UsersDAO implements UsersInterface {
 
             statement.setString(1, user.username);
             statement.setString(2, user.password);
-            statement.setInt(3, 1);
+            statement.setInt(3, user.accessLevel);
 
             statement.execute();
             return getUser(user.username);

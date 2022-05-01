@@ -1,5 +1,6 @@
 package org.Revature;
 
+import Controller.AccountController;
 import Controller.CustomerController;
 import Controller.UserController;
 import io.javalin.Javalin;
@@ -8,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import AccountModelPkg.*;
 import AccountDaoPkg.*;
 
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -15,7 +18,7 @@ public class App
 {
     private static final Logger logger = LogManager.getLogger(App.class);
     static Scanner scan = new Scanner(System.in);
-    private static int menuChoice = 0;
+    protected static int menuChoice = 0;
     private static int accessLevel = 0;
     private static String username;
     private static String password;
@@ -38,33 +41,35 @@ public class App
         Javalin app = Javalin.create().start(7079);
         UserController userController = new UserController(app);
         CustomerController customerController = new CustomerController(app);
+        AccountController accountController = new AccountController(app);
 
         while(menuChoice != 3){
-            menuChoice = 0;
+
             topMenu();
             if(menuChoice == 1){
                 accountLogin();
+                u = userDao.getUser(username);
+                if(u.accessLevel == 1){
+                    customerMenu();
+                } else if (u.accessLevel == 2){
+                    employeeMenu();
+                } else if (u.accessLevel == 3){
+                    e = employeeDao.getEmployee(u.userId);
+                    adminMenu();
+                }
             } else if (menuChoice == 2){
                 signUpMenu();
             } else if (menuChoice == 3){
                 System.out.println("Session has ended ");
                 System.exit(0);
             }
-            u = userDao.getUser(username);
-            if(u.accessLevel == 1){
-                customerMenu();
-            } else if (u.accessLevel == 2){
-                employeeMenu();
-            } else if (u.accessLevel == 3){
-                e = employeeDao.getEmployee(u.userId);
-                adminMenu();
-            }
+
         }
 
     }
 
     public static void topMenu(){
-        int topMenuCheck = 1;
+
         //Top menu that loads when application starts
         menuChoice = 0;
         System.out.println("Welcome to the Banking app.");
@@ -84,10 +89,24 @@ public class App
         System.out.println("Welcome to the Banking app Log In up page.");
         System.out.println("Please enter your username: ");
         username = scan.next();
+        User user = userDao.getUser(username);
+        while(null == user) {
+            System.out.println("Incorrect username, reenter your username: ");
+            username = scan.next();
+            user = userDao.getUser(username);
+        }
         System.out.println("Please enter your password: ");
         password = scan.next();
 
+
+        while(!password.equals(user.getPassword())){
+            System.out.println("Inccorect password, please reenter your password: ");
+            password = scan.next();
+        }
+        u = user;
+
     }
+
     //Customer menu handling methods
     public static void customerMenu(){
         int customerMenuChoice = 0;
@@ -237,6 +256,7 @@ public class App
         user.setUsername(scan.next());
         System.out.println("Please enter a password for your account: ");
         user.setPassword(scan.next());
+        user.setAccessLevel(1);
         user = userDao.createUser(user);
         System.out.println("Please enter your first name: ");
         Customer customer = new Customer(user.getUserId());
@@ -333,16 +353,15 @@ public class App
     public static void employeeMenu(){
         int employeeMenuChoice = 0;
         e = employeeDao.getEmployee(u.userId);
-        while(employeeMenuChoice != 5){
+        while(employeeMenuChoice != 3){
             System.out.println("Hello " + e.fName + " " + e.lName);
             System.out.println("Please select an option :");
             System.out.println("1. View Customer Account Information");
-            System.out.println("2. View all Accounts Balances");
-            System.out.println("3. See pending account applications ");
-            System.out.println("4. Exit Application");
+            System.out.println("2. See pending account applications for approval");
+            System.out.println("3. Exit Application");
             employeeMenuChoice = scan.nextInt();
-            if(employeeMenuChoice < 0 || employeeMenuChoice >4){
-                while(employeeMenuChoice < 0 || employeeMenuChoice >4){
+            if(employeeMenuChoice < 0 || employeeMenuChoice > 3){
+                while(employeeMenuChoice < 0 || employeeMenuChoice >3){
                     System.out.println("Please Select a Valid Menu Option: ");
                     employeeMenuChoice = scan.nextInt();
                 }
@@ -352,15 +371,14 @@ public class App
                 employeeViewAllCustomerInfo();
             } else if (employeeMenuChoice == 2){
                 //view customer information
-                viewAllAccounts();
-            } else if (employeeMenuChoice == 3){
-                //view account balance
-                viewPendingAccounts();
+                seePending();
             }
         }
     }
 
+
     public static void employeeViewAllCustomerInfo(){
+
         System.out.println("Enter the username of the Customer Information you would like to view: ");
         String userToView = scan.next();
         User viewUser = userDao.getUser(userToView);
@@ -380,33 +398,24 @@ public class App
         System.out.println("Press Enter 1 to return to Employee Menu");
         int x = scan.nextInt();
 
-
     }
 
-    public static void viewPendingAccounts(){
-
-    }
-
-    public static void viewAllAccounts(){
-
-    }
 
     //admin menu handling methods
     public static void adminMenu(){
         int adminMenuChoice = 0;
-        while(adminMenuChoice != 6){
+        while(adminMenuChoice != 5){
             System.out.println("Admin Access Menu ");
             System.out.println(e.fName + " " + e.lName + " You are logged in as admin");
             System.out.println("Please select an option :");
             System.out.println("1. View Customer Account Information");
-            System.out.println("2. View all Accounts Balances");
-            System.out.println("3. Deposit, Withdraw, Transfer ");
-            System.out.println("4. See pending account applications ");
-            System.out.println("5. Cancel an Account");
-            System.out.println("6. Exit Application");
+            System.out.println("2. Deposit, Withdraw, Transfer ");
+            System.out.println("3. See pending account applications ");
+            System.out.println("4. Cancel an Account");
+            System.out.println("5. Exit Application");
             adminMenuChoice = scan.nextInt();
-            if(adminMenuChoice < 0 || adminMenuChoice > 6){
-                while(adminMenuChoice < 0 || adminMenuChoice > 6){
+            if(adminMenuChoice < 0 || adminMenuChoice > 5){
+                while(adminMenuChoice < 0 || adminMenuChoice > 5) {
                     System.out.println("Please Select a Valid Menu Option: ");
                     adminMenuChoice = scan.nextInt();
                 }
@@ -414,12 +423,12 @@ public class App
             if(adminMenuChoice == 1){
                 //view customer account info
                 employeeViewAllCustomerInfo();
+
             } else if (adminMenuChoice == 2){
-                //view customer information
-                viewAllAccounts();
-            } else if (adminMenuChoice == 3){
                 //view account balance
                 adminAccountAction();
+            } else if (adminMenuChoice == 3){
+                seePending();
             }
         }
     }
@@ -431,6 +440,7 @@ public class App
             System.out.println("1. Deposit funds to an account");
             System.out.println("2. Withdraw funds from an account");
             System.out.println("3. Transfer funds to another account");
+            System.out.println("4. Return to admin main menu");
             adminAction = scan.nextInt();
             if(adminAction == 1){
                 adminDesposit();
@@ -509,10 +519,57 @@ public class App
         System.out.println("You have deposited $" + depositAmt);
         System.out.println("The  current account balance for "+ c.fName + " " + c.lName + " is $" + ca.getAccountBalance());
         System.out.println();
-        System.out.println("Press Enter 1 to return to Customer Menu");
+        System.out.println("Press press 1 and enter to return to Customer Menu");
         int x = scan.nextInt();
 
     }
+
+    public static void seePending(){
+        List<CustomerAccount> customerAccountList = customerAccountDao.getCustomerAccountViaStatus(2);
+        System.out.println("List of Pending Accounts");
+
+        //customerAccountList.forEach();
+
+        for(int i = 0; i < customerAccountList.size(); i++){
+
+            System.out.println((i + 1) + ". Account#: " + customerAccountList.get(i).getAccountNumber());
+        }
+        System.out.println("Select the number of the account you would like to approve or deny");
+        int x = scan.nextInt();
+
+        System.out.println("Would you like to approve or deny this account?");
+        System.out.println("1. Approve account");
+        System.out.println("2.Deny account and delete information");
+        int y = scan.nextInt();
+        while(y < 1 || y > 2){
+            System.out.println("Please enter a valid selection");
+        }
+        if(y == 1){
+            System.out.println("Account with account number " +customerAccountList.get(x - 1).getAccountNumber() + " will be approved.");
+
+            CustomerAccount account = customerAccountList.get(x-1);
+            account.setAccountStatus(1);
+            customerAccountDao.updateAccountStatus(account);
+
+        } else if (y == 2){
+            System.out.println("Account with account number " +customerAccountList.get(x - 1).getAccountNumber() + " will be closed.");
+            CustomerAccount account = customerAccountList.get(x-1);
+            account.setAccountStatus(3);
+            customerAccountDao.updateAccountStatus(account);
+
+        }
+
+        System.out.println();
+        System.out.println("Press Enter 1 to return to Customer Menu");
+        int z = scan.nextInt();
+
+    }
+
+    public static void cancelAccount(){
+        System.out.println("Enter the username of an account you would like to cancel:");
+        String cancelAccount = scan.next();
+    }
+
 
 
 }

@@ -5,7 +5,7 @@ import AccountModelPkg.AccountType;
 
 public interface AccountTypeInterface {
 
-    public AccountType getAccountType(int id);
+    AccountType getAccountType(int id);
 
 
 }

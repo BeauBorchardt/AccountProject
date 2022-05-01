@@ -12,6 +12,9 @@ public class UserController {
     public UserController(Javalin app) {
         usersDAO = new UsersDAO();
         app.get("/users/{username}", getHandler);
+        app.post("/users", postHandler);
+        app.put("/users/{username}", putHandler);
+        app.delete("/users/{username}", deleteHandler);
 
     }
 

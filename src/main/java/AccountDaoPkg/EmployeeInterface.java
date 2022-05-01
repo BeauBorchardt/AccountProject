@@ -8,6 +8,6 @@ import java.sql.Connection;
 public interface EmployeeInterface {
 
 
-    public Employee getEmployee(int userId);
+    Employee getEmployee(int userId);
 
 }

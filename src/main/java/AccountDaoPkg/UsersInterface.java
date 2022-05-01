@@ -4,9 +4,9 @@ import AccountModelPkg.User;
 
 public interface UsersInterface {
 
-    public User getUser(String username);
-    public User createUser(User user);
-    public void updateUser(User user);
-    public void deleteUser(User user);
+    User getUser(String username);
+    User createUser(User user);
+    void updateUser(User user);
+    void deleteUser(User user);
 
 }

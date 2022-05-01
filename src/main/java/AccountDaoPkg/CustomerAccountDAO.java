@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class CustomerAccountDAO implements CustomerAccountInterface {
@@ -36,6 +38,32 @@ public class CustomerAccountDAO implements CustomerAccountInterface {
         return null;
     }
 
+    public List<CustomerAccount> getCustomerAccountViaStatus(int id) {
+        Connection connection = ConnectionManager.getConnection();
+        try{
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM customer_account WHERE account_status = ?");
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            List<CustomerAccount> pendingAccounts = new ArrayList<>();
+
+            while(rs.next()){
+                    CustomerAccount ca = new CustomerAccount();
+                    ca.customerAccountId = rs.getInt("id");
+                    ca.accountNumber = rs.getInt("account_number");
+                    ca.accountTypeId = rs.getInt("account_type");
+                    ca.accountBalance = rs.getDouble("account_balance");
+                    ca.accountStatus = rs.getInt("account_status");
+
+                    pendingAccounts.add(ca);
+                 }
+            return pendingAccounts;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public CustomerAccount getCustomerAccountViaId(int id) {
         Connection connection = ConnectionManager.getConnection();
         try{
@@ -53,6 +81,7 @@ public class CustomerAccountDAO implements CustomerAccountInterface {
                 return ca;
             }
         } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -130,6 +159,23 @@ public class CustomerAccountDAO implements CustomerAccountInterface {
                     "UPDATE customer_account " + "SET account_balance = ? " + "WHERE id = ?");
 
             statement.setDouble(1, customerAccount.getAccountBalance());
+            statement.setInt(2, customerAccount.getCustomerAccountId());
+
+            statement.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updateAccountStatus(CustomerAccount customerAccount) {
+        Connection connection = ConnectionManager.getConnection();
+        try{
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE customer_account " + "SET account_status = ? " + "WHERE id = ?");
+
+            statement.setDouble(1, customerAccount.getAccountStatus());
             statement.setInt(2, customerAccount.getCustomerAccountId());
 
             statement.executeUpdate();

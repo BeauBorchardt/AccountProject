@@ -5,9 +5,9 @@ import AccountModelPkg.Customer;
 import AccountModelPkg.User;
 
 public interface CustomerInterface {
-    public Customer getCustomer(int id);
-    public Customer createCustomer(Customer customer);
+    Customer getCustomer(int id);
+    Customer createCustomer(Customer customer);
 
-    public void updateCustomer(Customer customer);
-    public void deleteCustomer(Customer customer);
+    void updateCustomer(Customer customer);
+    void deleteCustomer(Customer customer);
 }
