@@ -59,4 +59,48 @@ public class CustomerDAO implements CustomerInterface {
         return null;
 
     }
+
+    @Override
+    public void updateCustomer(Customer customer) {
+
+        Connection connection = ConnectionManager.getConnection();
+
+        try{
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE customer " + "SET first_name= ?, last_name = ?, street_address = ?, city = ?, cust_state = ?, zip_code = ?"
+                            + "WHERE id = ?");
+
+            statement.setString(1, customer.fName);
+            statement.setString(2, customer.lName);
+            statement.setString(3, customer.streetAdd);
+            statement.setString(4, customer.city);
+            statement.setString(5, customer.state);
+            statement.setString(6, customer.zipCode);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    public void deleteCustomer(Customer customer) {
+
+        Connection connection = ConnectionManager.getConnection();
+
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM customer WHERE id = ?");
+            statement.setInt(1, customer.customerId);
+            statement.execute();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+
+    }
 }

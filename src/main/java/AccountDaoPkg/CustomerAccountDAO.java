@@ -3,6 +3,8 @@ package AccountDaoPkg;
 import AccountModelPkg.Customer;
 import AccountModelPkg.CustomerAccount;
 import AccountModelPkg.Employee;
+import AccountModelPkg.User;
+import io.javalin.http.Handler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -56,6 +58,48 @@ public class CustomerAccountDAO implements CustomerAccountInterface {
     }
 
     @Override
+    public void deleteCustomerAccount(CustomerAccount customerAccount) {
+
+        Connection connection = ConnectionManager.getConnection();
+
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM customer_account WHERE id = ?");
+            statement.setInt(1, customerAccount.customerAccountId);
+            statement.execute();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void updateCustomerAccount(CustomerAccount customerAccount) {
+
+        Connection connection = ConnectionManager.getConnection();
+
+        try{
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE customer_account " + "SET account_number= ?, account_type = ?, account_balance= ?, account_status = ?"
+                            + "WHERE id = ?");
+
+            statement.setInt(1, customerAccount.accountNumber);
+            statement.setInt(2, customerAccount.accountTypeId);
+            statement.setDouble(3, customerAccount.accountBalance);
+            statement.setInt(4, customerAccount.accountStatus);
+
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
+    @Override
     public CustomerAccount createCustomerAccount(CustomerAccount customerAccount) {
         Connection connection = ConnectionManager.getConnection();
         try {
@@ -95,4 +139,8 @@ public class CustomerAccountDAO implements CustomerAccountInterface {
         }
 
     }
+
+
+
+
 }

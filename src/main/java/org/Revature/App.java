@@ -1,5 +1,6 @@
 package org.Revature;
 
+import Controller.CustomerController;
 import Controller.UserController;
 import io.javalin.Javalin;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +37,7 @@ public class App
     {
         Javalin app = Javalin.create().start(7079);
         UserController userController = new UserController(app);
+        CustomerController customerController = new CustomerController(app);
 
         while(menuChoice != 3){
             menuChoice = 0;
@@ -178,7 +180,7 @@ public class App
         CustomerAccount ca = customerAccountDao.getCustomerAccountViaId(al.accountId);
         Double balance = ca.getAccountBalance();
         System.out.println("Your current Account Balance is : $"+ balance );
-        System.out.println("Please enter amount you would like to deposit : ");
+        System.out.println("Please enter amount you would like to withdraw : ");
         double withdrawAmt = scan.nextDouble();
         if(withdrawAmt > balance){
             while(withdrawAmt > balance){
@@ -392,13 +394,131 @@ public class App
     //admin menu handling methods
     public static void adminMenu(){
         int adminMenuChoice = 0;
-        System.out.println("Admin Access Menu ");
-        System.out.println(e.fName + " " + e.lName + " You are logged in as admin");
+        while(adminMenuChoice != 6){
+            System.out.println("Admin Access Menu ");
+            System.out.println(e.fName + " " + e.lName + " You are logged in as admin");
+            System.out.println("Please select an option :");
+            System.out.println("1. View Customer Account Information");
+            System.out.println("2. View all Accounts Balances");
+            System.out.println("3. Deposit, Withdraw, Transfer ");
+            System.out.println("4. See pending account applications ");
+            System.out.println("5. Cancel an Account");
+            System.out.println("6. Exit Application");
+            adminMenuChoice = scan.nextInt();
+            if(adminMenuChoice < 0 || adminMenuChoice > 6){
+                while(adminMenuChoice < 0 || adminMenuChoice > 6){
+                    System.out.println("Please Select a Valid Menu Option: ");
+                    adminMenuChoice = scan.nextInt();
+                }
+            }
+            if(adminMenuChoice == 1){
+                //view customer account info
+                employeeViewAllCustomerInfo();
+            } else if (adminMenuChoice == 2){
+                //view customer information
+                viewAllAccounts();
+            } else if (adminMenuChoice == 3){
+                //view account balance
+                adminAccountAction();
+            }
+        }
+    }
+
+    public static void adminAccountAction(){
+        int adminAction = 0;
+        while(adminAction != 4){
+            System.out.println("Please select an option :");
+            System.out.println("1. Deposit funds to an account");
+            System.out.println("2. Withdraw funds from an account");
+            System.out.println("3. Transfer funds to another account");
+            adminAction = scan.nextInt();
+            if(adminAction == 1){
+                adminDesposit();
+            } else if (adminAction == 2){
+                adminWithdraw();
+            } else if (adminAction == 3){
+                adminTransfer();
+            }
+        }
+    }
+
+    private static void adminTransfer() {
+        System.out.println("Enter the username of the Customer you want to Transfer funds for: ");
+        String customerTransfer = scan.next();
+        User transfer = userDao.getUser(customerTransfer );
+        Customer c = customerDao.getCustomer(transfer.userId);
+        AccountLink al = accountLinkDa0.getLink(c.customerId);
+        CustomerAccount ca = customerAccountDao.getCustomerAccountViaId(al.accountId);
+        Double balance = ca.getAccountBalance();
+
+
+    }
+
+    private static void adminWithdraw() {
+        System.out.println("Enter the username of the Customer you want to withdraw funds for: ");
+        String customerWithdraw = scan.next();
+        User withdraw = userDao.getUser(customerWithdraw);
+        Customer c = customerDao.getCustomer(withdraw.userId);
+        AccountLink al = accountLinkDa0.getLink(c.customerId);
+        CustomerAccount ca = customerAccountDao.getCustomerAccountViaId(al.accountId);
+        Double balance = ca.getAccountBalance();
+        System.out.println("The Account Balance for "+ c.fName + " " + c.lName + "  : $"+ balance );
+        System.out.println("Please enter amount you would like to withdraw this account: ");
+        double withdrawAmt = scan.nextDouble();
+        if(withdrawAmt > balance){
+            while(withdrawAmt > balance){
+                System.out.println("That amount is more than the current balance");
+                System.out.println("Please enter a valid withdrawal amount: ");
+                withdrawAmt = scan.nextDouble();
+            }
+        }
+        ca.setAccountBalance(balance - withdrawAmt);
+        customerAccountDao.updateAccountBalance(ca);
+
+        System.out.println("You have withdrawn $" + withdrawAmt);
+        System.out.println("The  current account balance for "+ c.fName + " " + c.lName + " is $" + ca.getAccountBalance());
+        System.out.println();
+        logger.info("$" + withdrawAmt + " withdrawn from account " + ca.getAccountNumber());
+        System.out.println();
+        System.out.println("Press Enter 1 to return to the Admin Menu");
+        int x = scan.nextInt();
+
+    }
+
+    private static void adminDesposit() {
+
+        System.out.println("Enter the username of the Customer you want to deposit funds for: ");
+        String customerDeposit = scan.next();
+        User deposit = userDao.getUser(customerDeposit);
+        Customer c = customerDao.getCustomer(deposit.userId);
+        AccountLink al = accountLinkDa0.getLink(c.customerId);
+        CustomerAccount ca = customerAccountDao.getCustomerAccountViaId(al.accountId);
+        Double balance = ca.getAccountBalance();
+        System.out.println("The Account Balance for "+ c.fName + " " + c.lName + "  : $"+ balance );
+        System.out.println("Please enter amount you would like to deposit : ");
+        double depositAmt = scan.nextDouble();
+        if(depositAmt < 0){
+            while(depositAmt < 0){
+                System.out.println("Please enter a valid deposit amount: ");
+                depositAmt = scan.nextDouble();
+            }
+        }
+        ca.setAccountBalance(balance + depositAmt);
+        customerAccountDao.updateAccountBalance(ca);
+
+        System.out.println("You have deposited $" + depositAmt);
+        System.out.println("The  current account balance for "+ c.fName + " " + c.lName + " is $" + ca.getAccountBalance());
+        System.out.println();
+        System.out.println("Press Enter 1 to return to Customer Menu");
+        int x = scan.nextInt();
 
     }
 
 
-
-
-
 }
+
+
+
+
+
+

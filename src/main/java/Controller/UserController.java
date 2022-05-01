@@ -21,4 +21,28 @@ public class UserController {
         ctx.json(user);
     };
 
+    public Handler postHandler = ctx -> {
+
+        User user = ctx.bodyAsClass(User.class);
+        usersDAO.createUser(user);
+        ctx.status(201);
+
+    };
+
+    public Handler putHandler = ctx -> {
+
+        User user = ctx.bodyAsClass(User.class);
+        usersDAO.updateUser(user);
+        ctx.status(200);
+
+    };
+
+    public Handler deleteHandler = ctx -> {
+
+        User user = ctx.bodyAsClass(User.class);
+        usersDAO.deleteUser(user);
+        ctx.status(200);
+
+    };
+
 }

@@ -49,7 +49,7 @@ public class UsersDAO implements UsersInterface {
             return getUser(user.username);
 
         } catch(SQLException e){
-
+            e.printStackTrace();
         }
         return null;
 
@@ -57,11 +57,34 @@ public class UsersDAO implements UsersInterface {
 
     @Override
     public void updateUser(User user) {
+        Connection connection = ConnectionManager.getConnection();
 
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "UPDATE users " + "SET user_password = ?, access_level = ? " + "WHERE username = ?");
+
+            statement.setString(1, user.password);
+            statement.setInt(2, user.accessLevel);
+            statement.setString(3, user.username);
+
+            statement.executeUpdate();
+
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void deleterUser(User user) {
+    public void deleteUser(User user) {
+        Connection connection = ConnectionManager.getConnection();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM users WHERE username = ?");
+            statement.setString(1, user.username);
+            statement.execute();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
 
     }
 }
