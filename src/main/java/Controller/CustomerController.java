@@ -21,8 +21,8 @@ public class CustomerController {
 
     public Handler getHandler = ctx-> {
 
-        String customerId = ctx.pathParam("id");
-        Customer customerGet = customer.getCustomer(Integer.parseInt(customerId));
+        String userId = ctx.pathParam("userId");
+        Customer customerGet = customer.getCustomer(Integer.parseInt(userId));
         ctx.json(customerGet);
 
     };

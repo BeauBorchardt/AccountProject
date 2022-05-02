@@ -4,6 +4,7 @@ import AccountDaoPkg.CustomerAccountDAO;
 import AccountDaoPkg.CustomerDAO;
 import AccountModelPkg.Customer;
 import AccountModelPkg.CustomerAccount;
+import AccountModelPkg.User;
 import io.javalin.Javalin;
 import io.javalin.http.Handler;
 
@@ -16,18 +17,23 @@ public class AccountController {
         app.get("/account/{id}", getHandler);
         app.post("/account", postHandler);
         app.put("/account/{id}", putHandler);
+        app.delete("/account/{id}", deleteHandler);
 
     }
 
     public Handler getHandler = ctx-> {
 
         String accountId = ctx.pathParam("id");
-        CustomerAccount accountGet = account.getCustomerAccount(Integer.parseInt(accountId));
+        CustomerAccount accountGet = account.getCustomerAccountViaId(Integer.parseInt(accountId));
         ctx.json(accountGet);
 
     };
 
     public Handler postHandler = ctx -> {
+
+        CustomerAccount customerAccount = ctx.bodyAsClass(CustomerAccount.class);
+        account.createCustomerAccount(customerAccount);
+        ctx.status(201);
 
 
 

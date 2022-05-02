@@ -453,14 +453,43 @@ public class App
     }
 
     private static void adminTransfer() {
-        System.out.println("Enter the username of the Customer you want to Transfer funds for: ");
-        String customerTransfer = scan.next();
-        User transfer = userDao.getUser(customerTransfer );
-        Customer c = customerDao.getCustomer(transfer.userId);
+        System.out.println("Enter the username of the Customer you want to withdraw funds for: ");
+        String customerTransfer1 = scan.next();
+        User withdrawTransfer = userDao.getUser(customerTransfer1);
+        Customer c = customerDao.getCustomer(withdrawTransfer.userId);
         AccountLink al = accountLinkDa0.getLink(c.customerId);
         CustomerAccount ca = customerAccountDao.getCustomerAccountViaId(al.accountId);
-        Double balance = ca.getAccountBalance();
+        Double balance1 = ca.getAccountBalance();
+        System.out.println("The Account Balance for "+ c.fName + " " + c.lName + "  : $"+ balance1 );
+        System.out.println("Please enter amount you would like to transfer from this account: ");
+        double transferAmt = scan.nextDouble();
+        if(transferAmt > balance1){
+            while(transferAmt > balance1){
+                System.out.println("That amount is more than the current balance");
+                System.out.println("Please enter a valid transfer amount: ");
+                transferAmt = scan.nextDouble();
+            }
+        }
+        ca.setAccountBalance(balance1 - transferAmt);
+        customerAccountDao.updateAccountBalance(ca);
 
+        System.out.println("Enter the username of the Customer you want to transfer to: ");
+        String customerTransfer2 = scan.next();
+        User withdrawTransfer2 = userDao.getUser(customerTransfer2);
+        Customer c2 = customerDao.getCustomer(withdrawTransfer2.userId);
+        AccountLink al2 = accountLinkDa0.getLink(c2.customerId);
+        CustomerAccount ca2 = customerAccountDao.getCustomerAccountViaId(al2.accountId);
+        Double balance2 = ca2.getAccountBalance() + transferAmt;
+        ca2.setAccountBalance(balance2);
+        customerAccountDao.updateAccountBalance(ca2);
+
+
+        System.out.println("You have transfered $" + transferAmt + " to " + c2.fName + " " + c2.lName );
+        System.out.println("The new Account Balance for "+ c2.fName + " " + c2.lName + " is  : $"+ balance2 );
+
+        System.out.println();
+        System.out.println("Press Enter 1 to return to the Admin Menu");
+        int x = scan.nextInt();
 
     }
 
@@ -519,7 +548,7 @@ public class App
         System.out.println("You have deposited $" + depositAmt);
         System.out.println("The  current account balance for "+ c.fName + " " + c.lName + " is $" + ca.getAccountBalance());
         System.out.println();
-        System.out.println("Press press 1 and enter to return to Customer Menu");
+        System.out.println("Press press 1 and enter to return to admin Menu");
         int x = scan.nextInt();
 
     }
@@ -566,8 +595,11 @@ public class App
     }
 
     public static void cancelAccount(){
-        System.out.println("Enter the username of an account you would like to cancel:");
+        System.out.println("Enter the account number for the account you want to cancel:");
         String cancelAccount = scan.next();
+
+
+
     }
 
 
