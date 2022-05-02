@@ -38,10 +38,6 @@ public class App
 
     public static void main( String[] args )
     {
-        Javalin app = Javalin.create().start(7079);
-        UserController userController = new UserController(app);
-        CustomerController customerController = new CustomerController(app);
-        AccountController accountController = new AccountController(app);
 
         logger.trace("We've just greeted the user!");
         logger.debug("We've just greeted the user!");
@@ -49,6 +45,12 @@ public class App
         logger.warn("We've just greeted the user!");
         logger.error("We've just greeted the user!");
         logger.fatal("We've just greeted the user!");
+
+        Javalin app = Javalin.create().start(7079);
+        UserController userController = new UserController(app);
+        CustomerController customerController = new CustomerController(app);
+        AccountController accountController = new AccountController(app);
+
 
         while(menuChoice != 3){
 
@@ -296,13 +298,14 @@ public class App
         if(jointStatus == 1){
             //create new customer account
             System.out.println("Please Enter information for joint user account");
-            System.out.println("Please enter a username: for your account");
+            System.out.println("Please enter a username for your account");
             user2.setUsername(scan.next());
             System.out.println("Please enter a password for your account: ");
             user2.setPassword(scan.next());
+            user2.setAccessLevel(1);
             user2 = userDao.createUser(user2);
             System.out.println("Please enter your first name: ");
-            customer2 = new Customer(user.getUserId());
+            customer2 = new Customer(user2.getUserId());
             customer2.setfName(scan.next());
             System.out.println("Enter your last name: ");
             customer2.setlName(scan.next());
@@ -314,7 +317,7 @@ public class App
             customer2.setState(scan.next());
             System.out.println("Enter your zip code:");
             customer2.setZipCode(scan.next());
-            customer2 = customerDao.createCustomer(customer);
+            customer2 = customerDao.createCustomer(customer2);
         }
 
         System.out.println("Select what type of account you would like to apply for: ");
@@ -331,6 +334,7 @@ public class App
         Random random = new Random();
         int accountNumber = random.nextInt(147483647);
         CustomerAccount ac = new CustomerAccount();
+        CustomerAccount ac2 = new CustomerAccount();
 
         if(accType == 1 && jointStatus == 2){
             System.out.println("You have applied for a checking account pending bank approval");
@@ -339,6 +343,7 @@ public class App
         } else if (accType == 1 && jointStatus == 1){
             System.out.println("You have applied for a joint checking account pending bank approval");
             ac = customerAccountDao.createCustomerAccount(new CustomerAccount(accountNumber, 2));
+            ac2 = customerAccountDao.createCustomerAccount(new CustomerAccount(accountNumber, 2));
             logger.info("New joint checking account created for " + customer.fName + " " + customer.lName);
         } else if (accType == 2 && jointStatus == 2){
             System.out.println("You have applied for a saving account pending bank approval");
@@ -347,8 +352,13 @@ public class App
         } else if (accType == 2 && jointStatus == 1){
             System.out.println("You have applied for a joint saving account pending bank approval");
             ac = customerAccountDao.createCustomerAccount(new CustomerAccount(accountNumber, 4));
+            ac2 = customerAccountDao.createCustomerAccount(new CustomerAccount(accountNumber, 4));
         }
         accountLinkDa0.setLink(ac.getCustomerAccountId(), customer.customerId);
+
+        if(customer2 != null){
+            accountLinkDa0.setLink(ac2.getCustomerAccountId(), customer2.customerId);
+        }
 
         System.out.println();
         System.out.println("Press Enter 1 to return to Main Menu");
@@ -491,7 +501,8 @@ public class App
         customerAccountDao.updateAccountBalance(ca2);
 
 
-        System.out.println("You have transfered $" + transferAmt + " to " + c2.fName + " " + c2.lName );
+        System.out.println("Money transfered $" + transferAmt + " to " + c2.fName + " " + c2.lName );
+        logger.info("You have transfered $" + transferAmt + " to " + c2.fName + " " + c2.lName );
         System.out.println("The new Account Balance for "+ c2.fName + " " + c2.lName + " is  : $"+ balance2 );
 
         System.out.println();
@@ -553,6 +564,8 @@ public class App
         customerAccountDao.updateAccountBalance(ca);
 
         System.out.println("You have deposited $" + depositAmt);
+        logger.info("Amount deposited $" + depositAmt);
+
         System.out.println("The  current account balance for "+ c.fName + " " + c.lName + " is $" + ca.getAccountBalance());
         System.out.println();
         System.out.println("Press press 1 and enter to return to admin Menu");
@@ -589,6 +602,7 @@ public class App
 
         } else if (y == 2){
             System.out.println("Account with account number " +customerAccountList.get(x - 1).getAccountNumber() + " will be closed.");
+            logger.info("Account closed with account number " +customerAccountList.get(x - 1).getAccountNumber() );
             CustomerAccount account = customerAccountList.get(x-1);
             account.setAccountStatus(3);
             customerAccountDao.updateAccountStatus(account);
