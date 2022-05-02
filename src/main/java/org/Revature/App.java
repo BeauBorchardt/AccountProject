@@ -310,9 +310,10 @@ public class App
             System.out.println("Enter your last name: ");
             customer2.setlName(scan.next());
             System.out.println("Enter your street address:");
-            customer2.setStreetAdd(scan.nextLine());
+            customer2.setStreetAdd(scan.next());
+
             System.out.println("Enter your city:");
-            customer2.setCity(scan.nextLine());
+            customer2.setCity(scan.next());
             System.out.println("Enter your State:");
             customer2.setState(scan.next());
             System.out.println("Enter your zip code:");
@@ -334,7 +335,9 @@ public class App
         Random random = new Random();
         int accountNumber = random.nextInt(147483647);
         CustomerAccount ac = new CustomerAccount();
+
         CustomerAccount ac2 = new CustomerAccount();
+
 
         if(accType == 1 && jointStatus == 2){
             System.out.println("You have applied for a checking account pending bank approval");
@@ -446,6 +449,8 @@ public class App
                 adminAccountAction();
             } else if (adminMenuChoice == 3){
                 seePending();
+            } else if (adminMenuChoice == 4){
+                cancelAccount();
             }
         }
     }
@@ -506,7 +511,7 @@ public class App
         System.out.println("The new Account Balance for "+ c2.fName + " " + c2.lName + " is  : $"+ balance2 );
 
         System.out.println();
-        System.out.println("Press Enter 1 to return to the Admin Menu");
+        System.out.println("Press Enter 1 to return to the Menu");
         int x = scan.nextInt();
 
     }
@@ -537,7 +542,7 @@ public class App
         System.out.println();
         logger.info("$" + withdrawAmt + " withdrawn from account " + ca.getAccountNumber());
         System.out.println();
-        System.out.println("Press Enter 1 to return to the Admin Menu");
+        System.out.println("Press Enter 1 to return to the Menu");
         int x = scan.nextInt();
 
     }
@@ -568,7 +573,7 @@ public class App
 
         System.out.println("The  current account balance for "+ c.fName + " " + c.lName + " is $" + ca.getAccountBalance());
         System.out.println();
-        System.out.println("Press press 1 and enter to return to admin Menu");
+        System.out.println("Press press 1 and enter to return to the Menu");
         int x = scan.nextInt();
 
     }
@@ -610,14 +615,23 @@ public class App
         }
 
         System.out.println();
-        System.out.println("Press Enter 1 to return to Customer Menu");
+        System.out.println("Press Enter 1 to return to the Menu");
         int z = scan.nextInt();
 
     }
 
     public static void cancelAccount(){
         System.out.println("Enter the account number for the account you want to cancel:");
-        String cancelAccount = scan.next();
+        int cancelAccount = scan.nextInt();
+        CustomerAccount ca = customerAccountDao.getCustomerAccount(cancelAccount);
+
+        ca.setAccountStatus(3);
+        System.out.println(ca.accountNumber + " will be cancelled.");
+
+        System.out.println();
+        System.out.println("Press Enter 1 to return to the Menu");
+        int z = scan.nextInt();
+
 
 
 
