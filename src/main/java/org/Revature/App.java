@@ -625,7 +625,9 @@ public class App
         int cancelAccount = scan.nextInt();
         CustomerAccount ca = customerAccountDao.getCustomerAccount(cancelAccount);
 
+
         ca.setAccountStatus(3);
+        customerAccountDao.updateAccountStatus(ca);
         System.out.println(ca.accountNumber + " will be cancelled.");
 
         System.out.println();

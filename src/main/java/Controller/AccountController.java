@@ -40,6 +40,9 @@ public class AccountController {
     };
 
     public Handler putHandler = ctx -> {
+        CustomerAccount customerAccount = ctx.bodyAsClass(CustomerAccount.class);
+        account.updateCustomerAccount(customerAccount);
+        ctx.status(200);
 
 
     };
