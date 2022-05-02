@@ -43,6 +43,13 @@ public class App
         CustomerController customerController = new CustomerController(app);
         AccountController accountController = new AccountController(app);
 
+        logger.trace("We've just greeted the user!");
+        logger.debug("We've just greeted the user!");
+        logger.info("We've just greeted the user!");
+        logger.warn("We've just greeted the user!");
+        logger.error("We've just greeted the user!");
+        logger.fatal("We've just greeted the user!");
+
         while(menuChoice != 3){
 
             topMenu();
